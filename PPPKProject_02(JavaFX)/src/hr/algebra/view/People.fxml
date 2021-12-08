@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="681.0" prefWidth="988.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="hr.algebra.controller.PeopleController">
+   <children>
+      <TabPane fx:id="tabListPeople" prefHeight="681.0" prefWidth="988.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="tabList" text="List of people">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tvPeople" prefHeight="587.0" prefWidth="988.0">
+                          <columns>
+                            <TableColumn fx:id="tcFirstName" prefWidth="75.0" text="First name" />
+                            <TableColumn fx:id="tcLastName" prefWidth="75.0" text="Last name" />
+                              <TableColumn fx:id="tcAge" prefWidth="75.0" text="Age" />
+                              <TableColumn fx:id="tcEmail" prefWidth="75.0" text="Email" />
+                              <TableColumn fx:id="tcJMBAG" prefWidth="75.0" text="JMBAG" />
+                              <TableColumn fx:id="tcGender" prefWidth="75.0" text="Gender" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <Button layoutX="635.0" layoutY="601.0" mnemonicParsing="false" onAction="#editPerson" prefHeight="37.0" prefWidth="112.0" style="-fx-background-color: #D23793;" text="Edit" textFill="WHITE" />
+                        <Button layoutX="765.0" layoutY="601.0" mnemonicParsing="false" onAction="#deletePerson" prefHeight="37.0" prefWidth="112.0" style="-fx-background-color: #CEBBB9;" text="Delete" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="tabAddPerson" text="Add person">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="30.0" layoutY="87.0" prefHeight="30.0" prefWidth="102.0" text="First name:" />
+                        <TextField fx:id="tfFirstName" layoutX="180.0" layoutY="90.0" prefHeight="25.0" prefWidth="205.0" />
+                        <Label layoutX="30.0" layoutY="165.0" prefHeight="30.0" prefWidth="102.0" text="Last name:" />
+                        <TextField fx:id="tfLastName" layoutX="179.0" layoutY="168.0" prefHeight="25.0" prefWidth="206.0" />
+                        <Label layoutX="36.0" layoutY="241.0" prefHeight="30.0" prefWidth="102.0" text="Age:" />
+                        <TextField fx:id="tfAge" layoutX="317.0" layoutY="244.0" prefHeight="25.0" prefWidth="67.0" />
+                        <Label layoutX="36.0" layoutY="318.0" prefHeight="30.0" prefWidth="102.0" text="JMBAG:" />
+                        <TextField fx:id="tfJMBAG" layoutX="175.0" layoutY="318.0" prefHeight="25.0" prefWidth="210.0" />
+                        <Label layoutX="36.0" layoutY="402.0" prefHeight="30.0" prefWidth="102.0" text="Email:" />
+                        <TextField fx:id="tfEmail" layoutX="175.0" layoutY="402.0" prefHeight="25.0" prefWidth="209.0" />
+                        <Label layoutX="36.0" layoutY="474.0" prefHeight="30.0" prefWidth="102.0" text="Gender:" />
+                        <RadioButton layoutX="177.0" layoutY="481.0" mnemonicParsing="false" selected="true" text="Female">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="rbtns" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton layoutX="277.0" layoutY="481.0" mnemonicParsing="false" text="Male" toggleGroup="$rbtns" />
+                        <RadioButton layoutX="378.0" layoutY="481.0" mnemonicParsing="false" text="Other" toggleGroup="$rbtns" />
+                        <Button layoutX="503.0" layoutY="555.0" mnemonicParsing="false" onAction="#commitPerson" prefHeight="48.0" prefWidth="172.0" style="-fx-background-color: #8E76D6;" text="Commit" textFill="#f8f8f8" />
+                        <ImageView fx:id="ivPicture" fitHeight="419.0" fitWidth="386.0" layoutX="503.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/no_image.png" />
+                           </image>
+                        </ImageView>
+                        <Button layoutX="717.0" layoutY="555.0" mnemonicParsing="false" onAction="#upload" prefHeight="48.0" prefWidth="172.0" style="-fx-background-color: #B2E6F0;" text="Upload" textFill="WHITE" />
+                        <Label fx:id="lbErrorFName" layoutX="407.0" layoutY="85.0" prefHeight="35.0" prefWidth="47.0" text="X" textFill="#bf1515" visible="false">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbErrorLName" layoutX="404.0" layoutY="163.0" prefHeight="35.0" prefWidth="47.0" text="X" textFill="#bf1515" visible="false">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbErrorAge" layoutX="404.0" layoutY="239.0" prefHeight="35.0" prefWidth="47.0" text="X" textFill="#bf1515" visible="false">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbErrorJmbag" layoutX="404.0" layoutY="313.0" prefHeight="35.0" prefWidth="47.0" text="X" textFill="#bf1515" visible="false">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbErrorEmail" layoutX="404.0" layoutY="397.0" prefHeight="35.0" prefWidth="47.0" text="X" textFill="#bf1515" visible="false">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbErrorPicture" layoutX="917.0" layoutY="90.0" prefHeight="35.0" prefWidth="47.0" text="X" textFill="#bf1515" visible="false">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="tabListCourses" text="List of courses">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tvCourses" prefHeight="587.0" prefWidth="988.0">
+                           <columns>
+                              <TableColumn fx:id="tcTourseTitle" prefWidth="75.0" text="Title" />
+                              <TableColumn fx:id="tcEcts" prefWidth="75.0" text="ECTS" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <Button layoutX="637.0" layoutY="601.0" mnemonicParsing="false" onAction="#editCourse" prefHeight="37.0" prefWidth="112.0" style="-fx-background-color: #D23793;" text="Edit" textFill="WHITE" />
+                        <Button layoutX="767.0" layoutY="601.0" mnemonicParsing="false" onAction="#deleteCourse" prefHeight="37.0" prefWidth="112.0" style="-fx-background-color: #CEBBB9;" text="Delete" textFill="WHITE" />
+                        <Button layoutX="506.0" layoutY="601.0" mnemonicParsing="false" onAction="#addPersonToCourse" prefHeight="37.0" prefWidth="112.0" style="-fx-background-color: #AF9978;" text="Add person" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="tabAddCourse" text="Add course">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="317.0" layoutY="120.0" prefHeight="30.0" prefWidth="102.0" text="Title:" />
+                        <TextField fx:id="tfCourseTitle" layoutX="411.0" layoutY="123.0" prefHeight="25.0" prefWidth="261.0" />
+                        <Label layoutX="317.0" layoutY="198.0" prefHeight="30.0" prefWidth="102.0" text="ECTS:" />
+                        <TextField fx:id="tfEcts" layoutX="597.0" layoutY="201.0" prefHeight="25.0" prefWidth="75.0" />
+                        <Button layoutX="500.0" layoutY="302.0" mnemonicParsing="false" onAction="#commitCourse" prefHeight="48.0" prefWidth="172.0" style="-fx-background-color: #8E76D6;" text="Commit" textFill="#f8f8f8" />
+                        <Label fx:id="lbErrorCourseTitle" layoutX="705.0" layoutY="115.0" prefHeight="40.0" prefWidth="50.0" text="X" textFill="#c32121" visible="false">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbErrorEcts" layoutX="705.0" layoutY="193.0" prefHeight="41.0" prefWidth="48.0" text="X" textFill="#b52727" visible="false">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabListPositions" text="List of positions">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tvPositions" prefHeight="587.0" prefWidth="988.0">
+                           <columns>
+                              <TableColumn fx:id="tcPositionTitle" prefWidth="75.0" text="Title" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <Button layoutX="635.0" layoutY="601.0" mnemonicParsing="false" onAction="#editPosition" prefHeight="37.0" prefWidth="112.0" style="-fx-background-color: #D23793;" text="Edit" textFill="WHITE" />
+                        <Button layoutX="765.0" layoutY="601.0" mnemonicParsing="false" onAction="#deletePosition" prefHeight="37.0" prefWidth="112.0" style="-fx-background-color: #CEBBB9;" text="Delete" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabAddPosition" text="Add position">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="317.0" layoutY="120.0" prefHeight="30.0" prefWidth="102.0" text="Title:" />
+                        <TextField fx:id="tfPositionTitle" layoutX="411.0" layoutY="123.0" prefHeight="25.0" prefWidth="261.0" />
+                        <Button layoutX="500.0" layoutY="302.0" mnemonicParsing="false" onAction="#commitPosition" prefHeight="48.0" prefWidth="172.0" style="-fx-background-color: #8E76D6;" text="Commit" textFill="#f8f8f8" />
+                        <Label fx:id="lbErrorPositionTitle" layoutX="705.0" layoutY="115.0" prefHeight="40.0" prefWidth="50.0" text="X" textFill="#c32121" visible="false">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
