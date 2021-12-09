@@ -27,6 +27,7 @@ public interface Repository {
     void deleteCourse(Course data) throws Exception;
     Course getCourse(int idCourse) throws Exception;
     List<Course> getCourses() throws Exception;
+    List<Person> getPeopleOnCourse() throws Exception;
     
     int addPosition(Position data) throws Exception;
     void updatePosition(Position data) throws Exception;

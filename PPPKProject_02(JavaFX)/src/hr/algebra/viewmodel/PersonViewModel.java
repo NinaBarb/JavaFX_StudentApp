@@ -63,4 +63,11 @@ public class PersonViewModel {
     public ObjectProperty<byte[]> getPictureProperty(){
         return new SimpleObjectProperty<>(person.getPicture());
     }
+
+    @Override
+    public String toString() {
+        return person.getFirstName() + " " + person.getLastName();
+    }
+    
+    
 }

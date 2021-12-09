@@ -31,4 +31,11 @@ public class PositionViewModel {
     public StringProperty getTitleProperty(){
         return new SimpleStringProperty(position.getTitle());
     }
+
+    @Override
+    public String toString() {
+        return position.getTitle();
+    }
+    
+    
 }

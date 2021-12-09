@@ -37,4 +37,9 @@ public class CourseViewModel {
     public IntegerProperty getEctsProperty(){
         return new SimpleIntegerProperty(course.getEcts());
     }
+
+    @Override
+    public String toString() {
+        return course.getTitle();
+    }
 }

@@ -163,5 +163,13 @@ public class HibernateRepository implements Repository {
             return em.createNamedQuery(HibernateFactory.SELECT_ALL_POSITIONS).getResultList();
         }
     }
+
+    @Override
+    public List<Person> getPeopleOnCourse() throws Exception {
+        try(EntityManagerWrapper wrapper = HibernateFactory.getEntityManager()){
+            EntityManager em = wrapper.get();
+            return em.createNamedQuery(HibernateFactory.SELECT_ALL_POSITIONS).getResultList();
+        }
+    }
     
 }
