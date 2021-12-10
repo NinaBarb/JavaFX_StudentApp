@@ -6,8 +6,6 @@
 package hr.algebra.controller;
 
 import hr.algebra.dao.RepositoryFactory;
-import hr.algebra.viewmodel.CourseViewModel;
-import hr.algebra.viewmodel.PersonViewModel;
 import hr.algebra.viewmodel.PositionViewModel;
 import java.io.IOException;
 import java.net.URL;

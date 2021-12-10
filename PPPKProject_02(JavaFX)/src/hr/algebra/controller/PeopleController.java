@@ -10,9 +10,7 @@ import hr.algebra.utils.FileUtils;
 import hr.algebra.utils.ImageUtils;
 import hr.algebra.utils.MaskUtils;
 import hr.algebra.utils.ValidationUtils;
-import hr.algebra.viewmodel.CourseViewModel;
 import hr.algebra.viewmodel.PersonViewModel;
-import hr.algebra.viewmodel.PositionViewModel;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -100,6 +98,7 @@ public class PeopleController implements Initializable {
             initTable();
             MaskUtils.addIntegerMask(tfAge);
             MaskUtils.addIntegerMask(tfJMBAG);
+            MaskUtils.addTextLimiter(tfJMBAG, 10);
             setListeners();
         } catch (Exception ex) {
             Logger.getLogger(PeopleController.class.getName()).log(Level.SEVERE, null, ex);

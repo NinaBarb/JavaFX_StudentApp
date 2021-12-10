@@ -6,7 +6,6 @@
 package hr.algebra.controller;
 
 import hr.algebra.dao.RepositoryFactory;
-import hr.algebra.model.Person;
 import hr.algebra.utils.MaskUtils;
 import hr.algebra.viewmodel.CourseViewModel;
 import hr.algebra.viewmodel.PersonCourseViewModel;
@@ -295,7 +294,6 @@ public class CoursesController implements Initializable {
             tcPersonOnCourse.setCellValueFactory(person -> person.getValue().getPersonIDProperty().asString());
             tcPosition.setCellValueFactory(position -> position.getValue().getPositionIDProperty().asString());
             tvPeopleOnCourse.setItems(peopleOnCourse.filtered(p -> p.getPersonCourse().getCourseID().getIDCourse().equals(selectCourseViewModel.getCourse().getIDCourse())));
-            /*tvPeopleOnCourse.setItems(peopleOnCourse);*/
         } catch (Exception ex) {
             Logger.getLogger(CoursesController.class.getName()).log(Level.SEVERE, null, ex);
         }

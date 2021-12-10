@@ -171,14 +171,6 @@ public class HibernateRepository implements Repository {
             EntityManager em = wrapper.get();
             return em.createNamedQuery(HibernateFactory.SELECT_ALL_PERSON_COURSE).getResultList();
         }
-        /*try(EntityManagerWrapper wrapper = HibernateFactory.getEntityManager()){
-        EntityManager em = wrapper.get();
-        Query query = em.createNativeQuery("{call GetPeopleCourses(?)}",
-        PersonCourse.class)
-        .setParameter(1, course.getIDCourse());
-        
-        return query.getResultList();
-        }*/
     }
 
     @Override
