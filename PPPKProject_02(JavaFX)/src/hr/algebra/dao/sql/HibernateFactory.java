@@ -18,6 +18,7 @@ public class HibernateFactory {
     public static final String SELECT_ALL_PEOPLE = "Person.findAll";
     public static final String SELECT_ALL_COURSES = "Course.findAll";
     public static final String SELECT_ALL_POSITIONS = "Position.findAll";
+    public static final String SELECT_ALL_PERSON_COURSE = "PersonCourse.findAll";
     
     private static final EntityManagerFactory EMF = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
     

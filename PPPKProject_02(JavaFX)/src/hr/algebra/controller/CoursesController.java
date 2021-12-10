@@ -6,9 +6,10 @@
 package hr.algebra.controller;
 
 import hr.algebra.dao.RepositoryFactory;
+import hr.algebra.model.Person;
 import hr.algebra.utils.MaskUtils;
-import hr.algebra.viewmodel.CombinedViewModel;
 import hr.algebra.viewmodel.CourseViewModel;
+import hr.algebra.viewmodel.PersonCourseViewModel;
 import hr.algebra.viewmodel.PersonViewModel;
 import hr.algebra.viewmodel.PositionViewModel;
 import java.io.IOException;
@@ -57,10 +58,10 @@ public class CoursesController implements Initializable {
     private final ObservableList<CourseViewModel> list = FXCollections.observableArrayList();
     private final ObservableList<PersonViewModel> people = FXCollections.observableArrayList();
     private final ObservableList<PositionViewModel> positions = FXCollections.observableArrayList();
-    private final ObservableList<CombinedViewModel> combined = FXCollections.observableArrayList();
+    private final ObservableList<PersonCourseViewModel> peopleOnCourse = FXCollections.observableArrayList();
     
     private CourseViewModel selectCourseViewModel;
-    private CombinedViewModel selectCombinedViewModel;
+    private PersonCourseViewModel selectPersonCourseViewModel;
 
     @FXML
     private TabPane tabListPeople;
@@ -89,11 +90,9 @@ public class CoursesController implements Initializable {
     @FXML
     private ComboBox<PositionViewModel> cbPosition;
     @FXML
-    private TableView<CombinedViewModel> tvPeopleOnCourse;
+    private TableView<PersonCourseViewModel> tvPeopleOnCourse;
     @FXML
-    private TableColumn<CombinedViewModel, String> tcPersonOnCourse;
-    @FXML
-    private TableColumn<CombinedViewModel, String> tcPosition;
+    private TableColumn<PersonCourseViewModel, String> tcPersonOnCourse, tcPosition;
 
     /**
      * Initializes the controller class.
@@ -184,6 +183,16 @@ public class CoursesController implements Initializable {
 
     private void initCourses() throws Exception {
         RepositoryFactory.getRepository().getCourses().forEach(course -> list.add(new CourseViewModel(course)));
+        
+        RepositoryFactory.getRepository().getPeopleOnCourse().forEach(personcourse -> peopleOnCourse.add(new PersonCourseViewModel(personcourse)));
+        
+        RepositoryFactory.getRepository().getPeople().forEach(person -> people.add(new PersonViewModel(person)));
+            cbPerson.getItems().addAll(people);
+            cbPerson.getSelectionModel().select(0);
+            
+            RepositoryFactory.getRepository().getPositions().forEach(position -> positions.add(new PositionViewModel(position)));
+            cbPosition.getItems().addAll(positions);
+            cbPosition.getSelectionModel().select(0);
     }
 
     private void initTable() {
@@ -197,6 +206,8 @@ public class CoursesController implements Initializable {
         tabListPeople.setOnMouseClicked(event ->{
             if(tabListPeople.getSelectionModel().getSelectedItem().equals(tabAddCourse)){
                 bindCourse(null);
+            }else if(tabListPeople.getSelectionModel().getSelectedItem().equals(tabListCourses)){
+                tabAddPerson.setDisable(true);
             }
         });
         
@@ -222,6 +233,31 @@ public class CoursesController implements Initializable {
                 }
             }
         });
+        
+        peopleOnCourse.addListener((ListChangeListener.Change<? extends PersonCourseViewModel> change) -> {
+            if (change.next()) {
+                if (change.wasRemoved()) {
+                    change.getRemoved().forEach(pvm -> {
+                        try {
+                            RepositoryFactory.getRepository().deletePersonOnCourse(pvm.getPersonCourse());
+                        } catch (Exception ex) {
+                            Logger.getLogger(PeopleController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                }else if(change.wasAdded()){
+                    change.getAddedSubList().forEach(pvm -> {
+                        try {
+                            /*int idPersonCourse = RepositoryFactory.getRepository().addPersonOnCourse(pvm.getPersonCourse());*/
+                            int idPersonCourse = RepositoryFactory.getRepository().addPersonOnCourse(pvm.getPersonCourse(), cbPerson.getValue().getPerson(), selectCourseViewModel.getCourse(), cbPosition.getValue().getPosition());
+                            pvm.getPersonCourse().setIDPersonCourse(idPersonCourse);
+                        } catch (Exception ex) {
+                            Logger.getLogger(PeopleController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
+                }
+            }
+        });
+        
     }
     
     private void bindCourse(CourseViewModel courseViewModel) {
@@ -256,48 +292,39 @@ public class CoursesController implements Initializable {
         try {
             tfSelectedCourse.setText(selectCourseViewModel.getCourse().toString());
             
-            RepositoryFactory.getRepository().getPeople().forEach(person -> people.add(new PersonViewModel(person)));
-            cbPerson.getItems().addAll(people);
-            cbPerson.getSelectionModel().select(0);
-            
-            RepositoryFactory.getRepository().getPositions().forEach(position -> positions.add(new PositionViewModel(position)));
-            cbPosition.getItems().addAll(positions);
-            cbPosition.getSelectionModel().select(0);
-            
+            tcPersonOnCourse.setCellValueFactory(person -> person.getValue().getPersonIDProperty().asString());
+            tcPosition.setCellValueFactory(position -> position.getValue().getPositionIDProperty().asString());
+            tvPeopleOnCourse.setItems(peopleOnCourse.filtered(p -> p.getPersonCourse().getCourseID().getIDCourse().equals(selectCourseViewModel.getCourse().getIDCourse())));
+            /*tvPeopleOnCourse.setItems(peopleOnCourse);*/
         } catch (Exception ex) {
             Logger.getLogger(CoursesController.class.getName()).log(Level.SEVERE, null, ex);
         }
             
         tabAddPerson.setDisable(false);
         tabListPeople.getSelectionModel().select(tabAddPerson);
-        selectCourseViewModel = null;
     }
 
     @FXML
     private void commitPerson(ActionEvent event) {
-        selectCombinedViewModel.getPerson().setFirstName(cbPerson.getValue().toString());
-        selectCombinedViewModel.getPosition().setTitle(cbPosition.getValue().toString());
-            
-            if (selectCombinedViewModel.getPerson().getIDPerson()== 0) {
-                combined.add(selectCombinedViewModel);
-            }else{
-                try {
-                    RepositoryFactory.getRepository().update(selectCourseViewModel.getCourse());
-                    tvCourses.refresh();
-                } catch (Exception ex) {
-                    Logger.getLogger(PeopleController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        selectPersonCourseViewModel = new PersonCourseViewModel(null, cbPerson.getValue().getPerson(), selectCourseViewModel.getCourse(), cbPosition.getValue().getPosition());
+        
+        if (selectPersonCourseViewModel.getPersonCourse().getIDPersonCourse()== 0) {
+            peopleOnCourse.add(selectPersonCourseViewModel);
+        }else{
+            try {
+                RepositoryFactory.getRepository().updatePersonOnCourse(selectPersonCourseViewModel.getPersonCourse());
+                tvPeopleOnCourse.refresh();
+            } catch (Exception ex) {
+                Logger.getLogger(PeopleController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            selectCourseViewModel = null;
-            tabListPeople.getSelectionModel().select(tabListCourses);
-            resetForm();
+        }
+        selectPersonCourseViewModel = null;
     }
 
     @FXML
-    private void personChanged(ActionEvent event) {
-    }
-
-    @FXML
-    private void positionChanged(ActionEvent event) {
+    private void deletePerson(ActionEvent event) {
+        if (tvPeopleOnCourse.getSelectionModel().getSelectedItem() != null) {
+            peopleOnCourse.remove(tvPeopleOnCourse.getSelectionModel().getSelectedItem());
+        }
     }
 }

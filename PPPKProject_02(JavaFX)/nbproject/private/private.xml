@@ -3,14 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/dao/sql/HibernateRepository.java</file>
-            <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/model/Position.java</file>
+            <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/view/Positions.fxml</file>
             <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/viewmodel/PositionViewModel.java</file>
+            <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/dao/sql/HibernateRepository.java</file>
             <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/dao/sql/EntityManagerWrapper.java</file>
+            <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/viewmodel/CombinedViewModel.java</file>
             <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/controller/PeopleController.java</file>
+            <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/controller/PositionsController.java</file>
+            <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/controller/CoursesController.java</file>
             <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/viewmodel/PersonViewModel.java</file>
-            <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/model/Course.java</file>
             <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/dao/Repository.java</file>
+            <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/model/Course.java</file>
             <file>file:/D:/skola/PPPK/PPPKProject_02(JavaFX)/src/hr/algebra/model/Person.java</file>
         </group>
     </open-files>

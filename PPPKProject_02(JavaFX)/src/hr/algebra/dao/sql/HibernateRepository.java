@@ -8,6 +8,7 @@ package hr.algebra.dao.sql;
 import hr.algebra.dao.Repository;
 import hr.algebra.model.Course;
 import hr.algebra.model.Person;
+import hr.algebra.model.PersonCourse;
 import hr.algebra.model.Position;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -165,10 +166,50 @@ public class HibernateRepository implements Repository {
     }
 
     @Override
-    public List<Person> getPeopleOnCourse() throws Exception {
+    public List<PersonCourse> getPeopleOnCourse() throws Exception {
         try(EntityManagerWrapper wrapper = HibernateFactory.getEntityManager()){
             EntityManager em = wrapper.get();
-            return em.createNamedQuery(HibernateFactory.SELECT_ALL_POSITIONS).getResultList();
+            return em.createNamedQuery(HibernateFactory.SELECT_ALL_PERSON_COURSE).getResultList();
+        }
+        /*try(EntityManagerWrapper wrapper = HibernateFactory.getEntityManager()){
+        EntityManager em = wrapper.get();
+        Query query = em.createNativeQuery("{call GetPeopleCourses(?)}",
+        PersonCourse.class)
+        .setParameter(1, course.getIDCourse());
+        
+        return query.getResultList();
+        }*/
+    }
+
+    @Override
+    public int addPersonOnCourse(PersonCourse data, Person person, Course course, Position position) throws Exception {
+        try(EntityManagerWrapper wrapper = HibernateFactory.getEntityManager()){
+            EntityManager em = wrapper.get();
+            em.getTransaction().begin();
+            PersonCourse personCourse = new PersonCourse(data.getIDPersonCourse(), course, person, position);
+            em.merge(personCourse);
+            em.getTransaction().commit();
+            return personCourse.getIDPersonCourse();
+        }
+    }
+
+    @Override
+    public void deletePersonOnCourse(PersonCourse personCourse) throws Exception {
+        try(EntityManagerWrapper wrapper = HibernateFactory.getEntityManager()){
+            EntityManager em = wrapper.get();
+            em.getTransaction().begin();
+            em.remove(em.contains(personCourse) ? personCourse : em.merge(personCourse));
+            em.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void updatePersonOnCourse(PersonCourse personCourse) throws Exception {
+        try(EntityManagerWrapper wrapper = HibernateFactory.getEntityManager()){
+            EntityManager em = wrapper.get();
+            em.getTransaction().begin();
+            em.find(PersonCourse.class, personCourse.getIDPersonCourse()).updateDetails(personCourse);
+            em.getTransaction().commit();
         }
     }
     

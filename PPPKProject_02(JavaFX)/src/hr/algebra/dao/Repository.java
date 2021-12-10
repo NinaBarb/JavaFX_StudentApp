@@ -5,6 +5,7 @@
  */
 package hr.algebra.dao;
 
+import hr.algebra.model.PersonCourse;
 import hr.algebra.model.Course;
 import hr.algebra.model.Person;
 import hr.algebra.model.Position;
@@ -27,7 +28,11 @@ public interface Repository {
     void deleteCourse(Course data) throws Exception;
     Course getCourse(int idCourse) throws Exception;
     List<Course> getCourses() throws Exception;
-    List<Person> getPeopleOnCourse() throws Exception;
+    
+    int addPersonOnCourse(PersonCourse personCourse, Person person, Course course, Position position) throws Exception;
+    void deletePersonOnCourse(PersonCourse personCourse) throws Exception;
+    void updatePersonOnCourse(PersonCourse personCourse) throws Exception;
+    List<PersonCourse> getPeopleOnCourse() throws Exception;
     
     int addPosition(Position data) throws Exception;
     void updatePosition(Position data) throws Exception;

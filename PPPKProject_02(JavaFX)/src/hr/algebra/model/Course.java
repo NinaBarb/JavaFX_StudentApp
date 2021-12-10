@@ -6,6 +6,7 @@
 package hr.algebra.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,8 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,6 +33,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Course.findByTitle", query = "SELECT c FROM Course c WHERE c.title = :title")
     , @NamedQuery(name = "Course.findByEcts", query = "SELECT c FROM Course c WHERE c.ects = :ects")})
 public class Course implements Serializable {
+
+    @OneToMany(mappedBy = "courseID")
+    private Collection<PersonCourse> personCourseCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -105,12 +111,21 @@ public class Course implements Serializable {
 
     @Override
     public String toString() {
-        return "hr.algebra.model.Course[ iDCourse=" + iDCourse + " ]";
+        return title;
     }
 
     public void updateDetails(Course data) {
         this.title = data.getTitle();
         this.ects = data.getEcts();
+    }
+
+    @XmlTransient
+    public Collection<PersonCourse> getPersonCourseCollection() {
+        return personCourseCollection;
+    }
+
+    public void setPersonCourseCollection(Collection<PersonCourse> personCourseCollection) {
+        this.personCourseCollection = personCourseCollection;
     }
     
 }

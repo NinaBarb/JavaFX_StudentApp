@@ -6,6 +6,7 @@
 package hr.algebra.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,8 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,6 +32,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Position.findByIDPosition", query = "SELECT p FROM Position p WHERE p.iDPosition = :iDPosition")
     , @NamedQuery(name = "Position.findByTitle", query = "SELECT p FROM Position p WHERE p.title = :title")})
 public class Position implements Serializable {
+
+    @OneToMany(mappedBy = "positionID")
+    private Collection<PositionPerson> positionPersonCollection;
+    @OneToMany(mappedBy = "positionID")
+    private Collection<PersonCourse> personCourseCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -93,11 +101,29 @@ public class Position implements Serializable {
 
     @Override
     public String toString() {
-        return "hr.algebra.model.Position[ iDPosition=" + iDPosition + " ]";
+        return title;
     }
 
     public void updateDetails(Position data) {
         this.title = data.getTitle();
+    }
+
+    @XmlTransient
+    public Collection<PositionPerson> getPositionPersonCollection() {
+        return positionPersonCollection;
+    }
+
+    public void setPositionPersonCollection(Collection<PositionPerson> positionPersonCollection) {
+        this.positionPersonCollection = positionPersonCollection;
+    }
+
+    @XmlTransient
+    public Collection<PersonCourse> getPersonCourseCollection() {
+        return personCourseCollection;
+    }
+
+    public void setPersonCourseCollection(Collection<PersonCourse> personCourseCollection) {
+        this.personCourseCollection = personCourseCollection;
     }
     
 }

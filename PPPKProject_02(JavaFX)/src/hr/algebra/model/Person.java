@@ -6,6 +6,7 @@
 package hr.algebra.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,8 +16,10 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,6 +39,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Person.findByEmail", query = "SELECT p FROM Person p WHERE p.email = :email")})
 public class Person implements Serializable {
 
+    @Lob
+    @Column(name = "Picture")
+    private byte[] picture;
+    @OneToMany(mappedBy = "personID")
+    private Collection<PositionPerson> positionPersonCollection;
+    @OneToMany(mappedBy = "personID")
+    private Collection<PersonCourse> personCourseCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -54,9 +65,6 @@ public class Person implements Serializable {
     private String gender;
     @Column(name = "Email")
     private String email;
-    @Lob
-    @Column(name = "Picture")
-    private byte[] picture;
 
     public Person() {
     }
@@ -135,13 +143,6 @@ public class Person implements Serializable {
         this.email = email;
     }
 
-    public byte[] getPicture() {
-        return picture;
-    }
-
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
-    }
 
     @Override
     public int hashCode() {
@@ -165,7 +166,7 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "hr.algebra.model.Person[ iDPerson=" + iDPerson + " ]";
+        return firstName + " " + lastName;
     }
 
     public void updateDetails(Person data) {
@@ -176,6 +177,32 @@ public class Person implements Serializable {
         this.jmbag = data.getJmbag();
         this.gender = data.getGender();
         this.picture = data.getPicture();
+    }
+
+    public byte[] getPicture() {
+        return picture;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
+    }
+
+    @XmlTransient
+    public Collection<PositionPerson> getPositionPersonCollection() {
+        return positionPersonCollection;
+    }
+
+    public void setPositionPersonCollection(Collection<PositionPerson> positionPersonCollection) {
+        this.positionPersonCollection = positionPersonCollection;
+    }
+
+    @XmlTransient
+    public Collection<PersonCourse> getPersonCourseCollection() {
+        return personCourseCollection;
+    }
+
+    public void setPersonCourseCollection(Collection<PersonCourse> personCourseCollection) {
+        this.personCourseCollection = personCourseCollection;
     }
     
 }
